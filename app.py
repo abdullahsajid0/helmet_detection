@@ -232,12 +232,34 @@ def show_detection_popup(original, detected, detections):
 # IMAGE DETECTION
 # =========================================================
 
+# =========================================================
+# IMAGE DETECTION
+# =========================================================
+
 def _run_image_detection(model, image_source, conf):
 
     with st.spinner("Running Detection..."):
 
+        # Convert uploaded bytes to OpenCV image
+        if isinstance(image_source, bytes):
+
+            import numpy as np
+
+            file_bytes = np.asarray(
+                bytearray(image_source),
+                dtype=np.uint8
+            )
+
+            image = cv2.imdecode(
+                file_bytes,
+                cv2.IMREAD_COLOR
+            )
+
+        else:
+            image = image_source
+
         result = model.predict(
-            source=image_source,
+            source=image,
             conf=conf,
             verbose=False,
             imgsz=960
@@ -246,7 +268,7 @@ def _run_image_detection(model, image_source, conf):
     annotated = result.plot()[:, :, ::-1]
 
     show_detection_popup(
-        image_source,
+        image,
         annotated,
         len(result.boxes)
     )
