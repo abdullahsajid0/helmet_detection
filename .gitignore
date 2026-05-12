@@ -1,0 +1,10 @@
+# Ignore large outputs and cache
+__pycache__/
+*.pyc
+runs/
+videos/
+VID_20260507_151418.mp4
+
+# Ignore all model weights except bestone.pt
+model/*.pt
+!model/bestone.pt
