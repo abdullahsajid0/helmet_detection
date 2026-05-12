@@ -14,6 +14,7 @@ from dashboard_utils import DEFAULT_MODEL_PATH, get_youtube_stream, load_model
 
 st.set_page_config(
     page_title="Helmet Detection Studio",
+    page_icon="🪖",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -28,110 +29,166 @@ st.markdown(
 
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-    * {
-        font-family: 'Poppins', sans-serif !important;
+    *{
+        font-family:'Poppins',sans-serif !important;
     }
 
-    .stApp {
+    .stApp{
         background:
-            radial-gradient(circle at top left, rgba(124,58,237,0.25), transparent 30%),
-            radial-gradient(circle at bottom right, rgba(6,182,212,0.2), transparent 30%),
-            linear-gradient(135deg, #0f172a 0%, #111827 100%);
-        color: white;
+        radial-gradient(circle at top left, rgba(124,58,237,0.25), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(6,182,212,0.18), transparent 30%),
+        linear-gradient(135deg,#0f172a 0%,#111827 100%);
+        color:white;
     }
 
-    .hero {
-        padding: 3rem;
-        border-radius: 28px;
-        background: rgba(15, 23, 42, 0.72);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255,255,255,0.08);
-        margin-bottom: 2rem;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    section[data-testid="stSidebar"]{
+        background:rgba(15,23,42,0.85);
+        border-right:1px solid rgba(255,255,255,0.08);
+        backdrop-filter:blur(14px);
     }
 
-    .hero-badge {
-        display: inline-block;
-        padding: 0.45rem 1rem;
-        border-radius: 999px;
-        background: linear-gradient(135deg,#7c3aed,#06b6d4);
-        color: white;
-        font-size: 0.8rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        letter-spacing: 1px;
+    .hero{
+        position:relative;
+        overflow:hidden;
+        padding:3.5rem;
+        border-radius:32px;
+        background:linear-gradient(
+            135deg,
+            rgba(17,24,39,0.88),
+            rgba(30,41,59,0.72)
+        );
+        border:1px solid rgba(255,255,255,0.08);
+        margin-bottom:2rem;
+        box-shadow:0 20px 60px rgba(0,0,0,0.45);
     }
 
-    .hero-title {
-        font-size: 3.8rem;
-        font-weight: 800;
-        line-height: 1.1;
-        margin-bottom: 1rem;
-        background: linear-gradient(to right, white, #cbd5e1);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+    .hero::before{
+        content:'';
+        position:absolute;
+        width:400px;
+        height:400px;
+        background:rgba(124,58,237,0.22);
+        border-radius:50%;
+        top:-180px;
+        right:-100px;
+        filter:blur(90px);
     }
 
-    .hero-sub {
-        color: #cbd5e1;
-        font-size: 1.1rem;
+    .hero::after{
+        content:'';
+        position:absolute;
+        width:350px;
+        height:350px;
+        background:rgba(6,182,212,0.18);
+        border-radius:50%;
+        bottom:-160px;
+        left:-100px;
+        filter:blur(90px);
     }
 
-    .section-title {
-        font-size: 1.6rem;
-        font-weight: 700;
-        margin-bottom: 1.5rem;
-        color: white;
+    .hero-badge{
+        display:inline-block;
+        padding:0.55rem 1rem;
+        border-radius:999px;
+        background:linear-gradient(135deg,#7c3aed,#06b6d4);
+        font-size:0.78rem;
+        font-weight:700;
+        letter-spacing:1px;
+        color:white;
+        margin-bottom:1.2rem;
+        position:relative;
+        z-index:2;
     }
 
-    .media-card {
-        background: rgba(30,41,59,0.75);
-        border-radius: 22px;
-        padding: 1rem;
-        border: 1px solid rgba(255,255,255,0.08);
-        transition: 0.3s ease;
-        margin-bottom: 1rem;
-        backdrop-filter: blur(10px);
+    .hero-title{
+        font-size:4rem;
+        font-weight:800;
+        line-height:1.05;
+        margin-bottom:1rem;
+        color:white;
+        position:relative;
+        z-index:2;
     }
 
-    .media-card:hover {
-        transform: translateY(-6px) scale(1.02);
-        border: 1px solid rgba(124,58,237,0.7);
-        box-shadow: 0 20px 40px rgba(124,58,237,0.25);
+    .hero-sub{
+        color:#cbd5e1;
+        font-size:1.1rem;
+        max-width:760px;
+        line-height:1.8;
+        position:relative;
+        z-index:2;
     }
 
-    .stButton > button {
-        background: linear-gradient(135deg,#7c3aed,#06b6d4);
-        border: none;
-        border-radius: 12px;
-        color: white;
-        font-weight: 700;
-        padding: 0.8rem 1rem;
-        width: 100%;
+    .glass-card{
+        background:rgba(30,41,59,0.65);
+        border:1px solid rgba(255,255,255,0.08);
+        border-radius:24px;
+        padding:1.5rem;
+        backdrop-filter:blur(12px);
+        box-shadow:0 10px 35px rgba(0,0,0,0.28);
     }
 
-    .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 30px rgba(124,58,237,0.35);
+    .section-title{
+        font-size:1.6rem;
+        font-weight:700;
+        color:white;
+        margin-bottom:1rem;
     }
 
-    .stTabs [data-baseweb="tab"] {
-        background: rgba(30,41,59,0.6);
-        border-radius: 12px;
-        padding: 0.8rem 1.2rem;
-        margin-right: 0.5rem;
+    .stTabs [data-baseweb="tab-list"]{
+        gap:0.7rem;
     }
 
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg,#7c3aed,#06b6d4) !important;
-        color: white !important;
+    .stTabs [data-baseweb="tab"]{
+        background:rgba(30,41,59,0.65);
+        border-radius:14px;
+        padding:0.9rem 1.2rem;
+        color:white;
+        font-weight:600;
+        border:1px solid rgba(255,255,255,0.06);
     }
 
-    .stMetric {
-        background: rgba(30,41,59,0.8);
-        border: 1px solid rgba(255,255,255,0.08);
-        padding: 1rem;
-        border-radius: 16px;
+    .stTabs [aria-selected="true"]{
+        background:linear-gradient(135deg,#7c3aed,#06b6d4) !important;
+        color:white !important;
+    }
+
+    .upload-box{
+        border:2px dashed rgba(255,255,255,0.15);
+        border-radius:22px;
+        padding:2rem;
+        text-align:center;
+        background:rgba(15,23,42,0.55);
+    }
+
+    .stButton > button{
+        width:100%;
+        border:none;
+        border-radius:14px;
+        padding:0.9rem 1rem;
+        font-weight:700;
+        color:white;
+        background:linear-gradient(135deg,#7c3aed,#06b6d4);
+        transition:0.25s ease;
+    }
+
+    .stButton > button:hover{
+        transform:translateY(-2px);
+        box-shadow:0 10px 30px rgba(124,58,237,0.35);
+    }
+
+    .stMetric{
+        background:rgba(30,41,59,0.65);
+        border:1px solid rgba(255,255,255,0.08);
+        padding:1rem;
+        border-radius:18px;
+    }
+
+    .stTextInput input{
+        background:rgba(15,23,42,0.8) !important;
+        border:1px solid rgba(255,255,255,0.08) !important;
+        border-radius:14px !important;
+        color:white !important;
     }
 
     </style>
@@ -140,92 +197,83 @@ st.markdown(
 )
 
 # =========================================================
-# CONSTANTS
+# MODEL
 # =========================================================
-
-IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".webp"}
-VIDEO_EXTS = {".mp4", ".mov", ".avi", ".mkv"}
-
-# =========================================================
-# HELPERS
-# =========================================================
-
-def _list_files(folder: str, extensions: set[str]):
-
-    root = Path(folder)
-
-    if not root.exists():
-        return []
-
-    return sorted([
-        str(p)
-        for p in root.iterdir()
-        if p.is_file() and p.suffix.lower() in extensions
-    ])
-
-
-def _read_youtube_links():
-
-    return [
-        "https://www.youtube.com/watch?v=UemFRPrl1hk",
-        "https://www.youtube.com/watch?v=OBJ5Q0lWbqk",
-    ]
-
 
 @st.cache_resource
 def _load_model_cached():
-
     return load_model(DEFAULT_MODEL_PATH)
 
 # =========================================================
-# HERO SECTION
+# HERO
 # =========================================================
 
 def hero():
 
     st.markdown(
         """
-        <div style="text-align: center; padding: 2.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 2rem;">
-            <h1 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 15px;">
-                <span style="font-size: 3rem;">👷‍♂️</span> Helmet Check AI
-            </h1>
-            <p style="font-size: 1.2rem; color: #a1a1aa; max-width: 600px; margin: 0 auto;">
-                Advanced real-time computer vision dashboard for automated safety compliance monitoring.
-            </p>
+        <div class="hero">
+
+            <div class="hero-badge">
+                ⚡ AI SAFETY MONITORING
+            </div>
+
+            <div class="hero-title">
+                🪖 Helmet Detection Studio
+            </div>
+
+            <div class="hero-sub">
+                Advanced real-time helmet detection dashboard powered by AI computer vision.
+                Upload images, videos, webcam captures or monitor YouTube live streams instantly.
+            </div>
+
         </div>
         """,
         unsafe_allow_html=True
     )
 
-
 # =========================================================
-# DETECTION POPUP
+# IMAGE RESULT POPUP
 # =========================================================
 
 @st.dialog("🔍 Detection Result", width="large")
 def show_detection_popup(original, detected, detections):
 
-    st.markdown("## 📷 Original Image")
+    col1, col2 = st.columns(2)
 
-    st.image(
-        original,
-        use_container_width=True
-    )
+    with col1:
+
+        st.markdown("### 📷 Original")
+
+        st.image(
+            original
+        )
+
+    with col2:
+
+        st.markdown("### ✅ Detection Output")
+
+        st.image(
+            detected
+        )
 
     st.markdown("---")
 
-    st.markdown("## ✅ Detection Output")
+    c1, c2, c3 = st.columns(3)
 
-    st.image(
-        detected,
-        use_container_width=True
-    )
-
-    st.markdown("---")
-
-    st.metric(
-        "Total Detections",
+    c1.metric(
+        "Detections",
         detections
+    )
+
+    c2.metric(
+        "Status",
+        "Processed"
+    )
+
+    c3.metric(
+        "AI Model",
+        "YOLO"
     )
 
 # =========================================================
@@ -234,7 +282,7 @@ def show_detection_popup(original, detected, detections):
 
 def _run_image_detection(model, image_source, conf):
 
-    with st.spinner("Running Detection..."):
+    with st.spinner("Running AI Detection..."):
 
         result = model.predict(
             source=image_source,
@@ -271,6 +319,8 @@ def _run_video_detection(model, source, conf):
 
     frame_count = 0
 
+    total_detections = 0
+
     start = time.time()
 
     while True:
@@ -289,6 +339,8 @@ def _run_video_detection(model, source, conf):
             imgsz=640
         )[0]
 
+        total_detections += len(result.boxes)
+
         annotated = result.plot()[:, :, ::-1]
 
         frame_slot.image(
@@ -301,23 +353,22 @@ def _run_video_detection(model, source, conf):
 
         fps = frame_count / elapsed
 
-        helmet_count = 0
-        no_helmet_count = 0
-
-        for box in result.boxes:
-
-            cls = int(box.cls[0])
-
-            if cls == 0:
-                helmet_count += 1
-            else:
-                no_helmet_count += 1
-
         c1, c2, c3 = stats_slot.columns(3)
 
-        c1.metric("FPS", f"{fps:.1f}")
-        c2.metric("Helmet", helmet_count)
-        c3.metric("No Helmet", no_helmet_count)
+        c1.metric(
+            "FPS",
+            f"{fps:.1f}"
+        )
+
+        c2.metric(
+            "Frames",
+            frame_count
+        )
+
+        c3.metric(
+            "Detections",
+            total_detections
+        )
 
     cap.release()
 
@@ -331,7 +382,7 @@ def main():
 
     with st.sidebar:
 
-        st.markdown("## ⚙️ Controls")
+        st.markdown("## ⚙️ Detection Controls")
 
         conf = st.slider(
             "Confidence Threshold",
@@ -341,17 +392,28 @@ def main():
             0.01
         )
 
+        st.markdown("---")
+
+        st.success("✅ AI Model Loaded")
+
         st.caption("Model: bestone.pt")
 
-    model = _load_model_cached()
+    try:
 
-    image_files = _list_files("images", IMAGE_EXTS)
+        model = _load_model_cached()
 
-    video_files = _list_files("videos", VIDEO_EXTS)
+    except Exception as e:
+
+        st.error(f"Model failed to load: {e}")
+
+        st.info(
+            "Make sure bestone.pt exists correctly in your project."
+        )
+
+        return
 
     tabs = st.tabs([
-        "🖼 Gallery Images",
-        "🎥 Gallery Videos",
+        "🖼 Upload Image",
         "📷 Webcam",
         "📹 Upload Video",
         "🔴 YouTube Live"
@@ -364,94 +426,54 @@ def main():
     with tabs[0]:
 
         st.markdown(
-            '<div class="section-title">Gallery Images</div>',
+            '<div class="section-title">Upload Image Detection</div>',
             unsafe_allow_html=True
         )
 
-        cols = st.columns(4)
-
-        for idx, img_path in enumerate(image_files):
-
-            with cols[idx % 4]:
-
-                st.markdown(
-                    '<div class="media-card">',
-                    unsafe_allow_html=True
-                )
-
-                st.image(
-                    img_path,
-                    use_container_width=True
-                )
-
-                if st.button(
-                    "🔍 Detect",
-                    key=f"img_{idx}"
-                ):
-
-                    _run_image_detection(
-                        model,
-                        img_path,
-                        conf
-                    )
-
-                st.markdown(
-                    '</div>',
-                    unsafe_allow_html=True
-                )
-
-    # =====================================================
-    # VIDEO TAB
-    # =====================================================
-
-    with tabs[1]:
-
-        st.markdown(
-            '<div class="section-title">Gallery Videos</div>',
-            unsafe_allow_html=True
+        uploaded_image = st.file_uploader(
+            "Upload Image",
+            type=["png", "jpg", "jpeg", "webp"],
+            label_visibility="collapsed"
         )
 
-        cols = st.columns(3)
+        if uploaded_image:
 
-        for idx, vid_path in enumerate(video_files):
+            st.markdown(
+                '<div class="glass-card">',
+                unsafe_allow_html=True
+            )
 
-            with cols[idx % 3]:
+            st.image(
+                uploaded_image
+            )
 
-                st.markdown(
-                    '<div class="media-card">',
-                    unsafe_allow_html=True
+            if st.button("🔍 Run Detection"):
+
+                _run_image_detection(
+                    model,
+                    uploaded_image,
+                    conf
                 )
 
-                st.video(vid_path)
-
-                if st.button(
-                    "▶️ Run Detection",
-                    key=f"vid_{idx}"
-                ):
-
-                    _run_video_detection(
-                        model,
-                        vid_path,
-                        conf
-                    )
-
-                st.markdown(
-                    '</div>',
-                    unsafe_allow_html=True
-                )
+            st.markdown(
+                '</div>',
+                unsafe_allow_html=True
+            )
 
     # =====================================================
     # WEBCAM TAB
     # =====================================================
 
-    with tabs[2]:
+    with tabs[1]:
 
         st.markdown(
-            '<div class="section-title">Capture From Webcam</div>',
+            '<div class="section-title">Webcam Detection</div>',
             unsafe_allow_html=True
         )
 
-        captured = st.camera_input("")
+        captured = st.camera_input(
+            "Take a Picture"
+        )
 
         if captured is not None:
 
@@ -462,19 +484,20 @@ def main():
             )
 
     # =====================================================
-    # UPLOAD VIDEO TAB
+    # VIDEO TAB
     # =====================================================
 
-    with tabs[3]:
+    with tabs[2]:
 
         st.markdown(
-            '<div class="section-title">Upload Video</div>',
+            '<div class="section-title">Upload Video Detection</div>',
             unsafe_allow_html=True
         )
 
         uploaded_video = st.file_uploader(
             "Upload Video",
-            type=["mp4", "mov", "avi", "mkv"]
+            type=["mp4", "mov", "avi", "mkv"],
+            label_visibility="collapsed"
         )
 
         if uploaded_video:
@@ -483,58 +506,36 @@ def main():
 
             temp_file.write(uploaded_video.read())
 
-            _run_video_detection(
-                model,
-                temp_file.name,
-                conf
-            )
+            st.video(temp_file.name)
+
+            if st.button("▶️ Run Video Detection"):
+
+                _run_video_detection(
+                    model,
+                    temp_file.name,
+                    conf
+                )
 
     # =====================================================
     # YOUTUBE TAB
     # =====================================================
 
-    with tabs[4]:
+    with tabs[3]:
 
         st.markdown(
             '<div class="section-title">YouTube Live Detection</div>',
             unsafe_allow_html=True
         )
 
-        presets = _read_youtube_links()
-
-        choice = st.radio(
-            "Choose Stream",
-            [
-                "Preset 1",
-                "Preset 2",
-                "Custom"
-            ],
-            horizontal=True
+        youtube_url = st.text_input(
+            "Paste YouTube Live URL"
         )
 
-        custom_url = ""
+        if st.button("🚀 Start Live Detection"):
 
-        if choice == "Custom":
-
-            custom_url = st.text_input(
-                "Paste YouTube URL"
+            stream = get_youtube_stream(
+                youtube_url
             )
-
-        if choice == "Preset 1":
-
-            url = presets[0]
-
-        elif choice == "Preset 2":
-
-            url = presets[1]
-
-        else:
-
-            url = custom_url
-
-        if st.button("🚀 Start Detection"):
-
-            stream = get_youtube_stream(url)
 
             if stream:
 
@@ -546,10 +547,12 @@ def main():
 
             else:
 
-                st.error("Could not extract YouTube stream")
+                st.error(
+                    "Could not extract YouTube stream."
+                )
 
 # =========================================================
-# RUN APP
+# RUN
 # =========================================================
 
 if __name__ == "__main__":
