@@ -199,27 +199,32 @@ def hero():
 
 
 # =========================================================
-# DETECTION POPUP
+# DETECTION DISPLAY
 # =========================================================
 
-@st.dialog("🔍 Detection Result", width="large")
 def show_detection_popup(original, detected, detections):
 
-    st.markdown("## 📷 Original Image")
+    st.markdown("## 🔍 Detection Result")
 
-    st.image(
-        original,
-        use_container_width=True
-    )
+    col1, col2 = st.columns(2)
 
-    st.markdown("---")
+    with col1:
 
-    st.markdown("## ✅ Detection Output")
+        st.markdown("### 📷 Original Image")
 
-    st.image(
-        detected,
-        use_container_width=True
-    )
+        st.image(
+            original,
+            use_container_width=True
+        )
+
+    with col2:
+
+        st.markdown("### ✅ Detection Output")
+
+        st.image(
+            detected,
+            use_container_width=True
+        )
 
     st.markdown("---")
 
